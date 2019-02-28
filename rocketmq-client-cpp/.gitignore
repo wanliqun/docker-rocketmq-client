@@ -1,0 +1,6 @@
+.idea
+cmake-build-debug/
+bin
+build
+libs/signature/lib
+tmp_*

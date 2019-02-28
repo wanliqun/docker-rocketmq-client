@@ -1,0 +1,27 @@
+Note: Google Test filter = decoder.*
+[==========] Running 3 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 3 tests from decoder
+[ RUN      ] decoder.messageId
+/home/rocketmq-client-cpp/test/src/message/MQDecoderTest.cpp:66: Failure
+Expected equality of these values:
+  host
+    Which is: 2130706433
+  inet_addr("127.0.0.1")
+    Which is: 16777343
+[  FAILED  ] decoder.messageId (0 ms)
+[ RUN      ] decoder.decoder
+MessageExt [queueId=4, storeSize=107, queueOffset=1024, sysFlag=0, bornTimestamp=4096, bornHost=1.0.0.127, storeTimestamp=4096, storeHost=2.0.0.127, msgId=7F0000020000276C0000000000000800, commitLogOffset=2048, bodyCRC=24, reconsumeTimes=111111, preparedTransactionOffset=12,  Message [topic=1234567890, flag=4, tag=]]
+MessageExt [queueId=4, storeSize=107, queueOffset=1024, sysFlag=0, bornTimestamp=4096, bornHost=1.0.0.127, storeTimestamp=4096, storeHost=2.0.0.127, msgId=7F0000020000276C0000000000000800, commitLogOffset=2048, bodyCRC=24, reconsumeTimes=111111, preparedTransactionOffset=12,  Message [topic=1234567890, flag=4, tag=]]
+[       OK ] decoder.decoder (0 ms)
+[ RUN      ] decoder.messagePropertiesAndToString
+[       OK ] decoder.messagePropertiesAndToString (0 ms)
+[----------] 3 tests from decoder (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test case ran. (0 ms total)
+[  PASSED  ] 2 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] decoder.messageId
+
+ 1 FAILED TEST
