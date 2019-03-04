@@ -67,6 +67,27 @@ tcpConnectStatus TcpTransport::connect(const string &strServerURL,
   sin.sin_addr.s_addr = inet_addr(hostName.c_str());
   sin.sin_port = htons(portNumber);
 
+  if (INADDR_NONE == sin.sin_addr.s_addr) { // Invalid ip address, maybe it's a domain name
+    try
+    {
+      boost::asio::io_service io_service;
+      boost::asio::ip::tcp::resolver resolver(io_service);
+      boost::asio::ip::tcp::resolver::query query(hostName, boost::lexical_cast<string>(portNumber));
+
+      LOG_DEBUG("dns resolving for host name: %s, service name: %s", hostName.c_str(), query.service_name().c_str());
+      boost::asio::ip::tcp::resolver::iterator iter = resolver.resolve(query);
+
+      boost::asio::ip::tcp::endpoint endpoint = iter->endpoint();
+      std::string ipAddr = endpoint.address().to_string();
+
+      LOG_DEBUG("dns resolving endpoint: %s", ipAddr.c_str());
+      sin.sin_addr.s_addr = inet_addr(ipAddr.c_str());
+    } catch(const std::exception& e) {
+      LOG_ERROR("dns resolving error: %s", e.what());
+      return e_connectFail;
+    }
+  }
+  
   m_eventBase = event_base_new();
   m_bufferEvent = bufferevent_socket_new(
       m_eventBase, -1, BEV_OPT_CLOSE_ON_FREE | BEV_OPT_THREADSAFE);
